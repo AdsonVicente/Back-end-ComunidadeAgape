@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Evento {
+  id        String   @id @db.Uuid
+  titulo    String   @db.VarChar(100)
+  descricao String   @db.VarChar(500)
+  local     String   @db.VarChar(50)
+  data      DateTime
+  horario   String   @db.VarChar(8)
+
+  banner     String? // O "?" indica que o campo é opcional e pode ser null
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  inscricoes Inscricao[]
+
+  @@map("eventos")
+}
+
+model Conteudo {
+  id           String    @id @db.Uuid
+  titulo       String    @db.VarChar(100)
+  descricao    String    @db.Text
+  autor        String
+  banner       String    @db.VarChar(255) // O "?" indica que o campo é opcional e pode ser null
+  publicadoEm  DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
+  categoria    String    @db.Uuid
+  category     Categoria @relation(fields: [categoria], references: [id])
+  viewCount    Int       @default(0)
+
+  @@map("conteudos")
+}
+
+model Administrador {
+  id        String   @id @db.Uuid
+  nome      String   @db.VarChar(50)
+  email     String   @unique
+  senha     String
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  imagens   Imagem[] // Relation to Imagem
+
+  @@map("administradores")
+}
+
+model Liturgia {
+  id                String   @id @db.Uuid
+  data              DateTime @default(now())
+  titulo            String
+  corLiturgica      String
+  primeiraLeitura   String
+  salmoResponsorial String
+  segundaLeitura    String
+  evangelho         String
+  dia               DateTime
+
+  @@map("liturgias")
+}
+
+model Categoria {
+  id        String     @id @db.Uuid
+  nome      String
+  data      DateTime   @default(now())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Conteudos Conteudo[]
+
+  @@map("categorias")
+}
+
+model Inscricao {
+  id        String   @id @db.Uuid
+  nome      String
+  telefone  String
+  idade     Int
+  email     String
+  grupo     String
+  setor     String
+  createdAt DateTime @default(now())
+  eventId   String   @db.Uuid
+  evento    Evento   @relation(fields: [eventId], references: [id])
+
+  @@map("Inscricoes")
+}
+
+model Imagem {
+  id        String        @id @default(uuid())
+  url       String
+  titulo    String
+  descricao String?
+  autorId   String
+  autor     Administrador @relation(fields: [autorId], references: [id])
+  criadoEm  DateTime      @default(now())
+}
