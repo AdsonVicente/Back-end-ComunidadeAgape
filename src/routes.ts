@@ -37,7 +37,6 @@ import BuscarAdministradorPorIdController from './controllers/administrador/Busc
 import { BuscarConteudoPorIdController } from './controllers/conteudo/BuscarConteudoPorIdController';
 import { ExcluirLiturgiaController } from './controllers/liturgia/ExcluirLiturgiaController';
 import { ListarEventoPorIdController } from './controllers/evento/ListarEventoPorIdController';
-import { CadastrarImagemController } from './controllers/imagens/CadastrarImagemController';
 import { PrismaClient } from '@prisma/client';
 import { EstatisticasController } from './controllers/EstatisticasController';
 import EditarLiturgiaController from './controllers/liturgia/EditarLiturgiaController';
@@ -146,8 +145,6 @@ router.put("/eventos/:id", isAuthenticated, upload.single("file"), editarEvento.
 router.delete("/eventos/:id", isAuthenticated, deletarEvento.handle);
 
 //INSCRIÇÕES PARA OS EVENTOS
-router.post("/imagem", isAuthenticated, upload.single("file"), new CadastrarImagemController().handle);
-
 
 router.get("/inscricoes", new ListarInscricoesController().handle);
 
