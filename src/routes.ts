@@ -55,13 +55,13 @@ const router = Router();
 
 //ROTAS ADMINISTRADOR
 
-router.post('/administrador', new CriarAdministradorController().handle);
+router.post('/administrador', isAuthenticated, new CriarAdministradorController().handle);
 
 router.post('/login', new AuthAdministradorController().handle);
 
 router.get('/administradoresDetalhes', isAuthenticated, new AdministradoresDetalhesController().handle);
 
-router.put('/administrador/:id',isAuthenticated, editarAdministradorController.handle);
+router.put('/administrador/:id', isAuthenticated, editarAdministradorController.handle);
 
 router.get("/administrador/:id", isAuthenticated, new BuscarAdministradorPorIdController().handle);
 
@@ -136,7 +136,7 @@ router.put(
 
 router.post('/evento', isAuthenticated, upload.single('file'), new CriarEventoController().handle);
 
-router.get("/evento/:id", isAuthenticated, new ListarEventoPorIdController().handle);
+router.get("/evento/:id",  new ListarEventoPorIdController().handle);
 
 router.get("/eventos", listarEventos.handle);
 

@@ -6,7 +6,7 @@ class ListarLiturgiasService {
     async execute() {
         const liturgias = await prisma.liturgia.findMany({
             orderBy: {
-                dia: 'asc'
+                dia: 'desc'
             }
         });
 

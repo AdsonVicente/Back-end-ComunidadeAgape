@@ -10,7 +10,7 @@ datasource db {
 model Evento {
   id        String   @id @db.Uuid
   titulo    String   @db.VarChar(100)
-  descricao String   @db.VarChar(500)
+  descricao String   @db.Text    
   local     String   @db.VarChar(50)
   data      DateTime
   horario   String   @db.VarChar(8)
