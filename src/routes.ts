@@ -136,7 +136,7 @@ router.put(
 
 router.post('/evento', isAuthenticated, upload.single('file'), new CriarEventoController().handle);
 
-router.get("/evento/:id",  new ListarEventoPorIdController().handle);
+router.get("/evento/:id", new ListarEventoPorIdController().handle);
 
 router.get("/eventos", listarEventos.handle);
 
@@ -146,9 +146,9 @@ router.delete("/eventos/:id", isAuthenticated, deletarEvento.handle);
 
 //INSCRIÇÕES PARA OS EVENTOS
 
-router.get("/inscricoes", new ListarInscricoesController().handle);
+router.get("/inscricoes", isAuthenticated, new ListarInscricoesController().handle);
 
-router.post("/inscricoes", isAuthenticated, new CriarInscricaoController().handle);
+router.post("/inscricoes", new CriarInscricaoController().handle);
 
 router.put("/inscricoes/:id", isAuthenticated, new EditarInscricaoController().handle);
 
