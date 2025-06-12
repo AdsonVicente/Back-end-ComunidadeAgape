@@ -19,7 +19,7 @@ CREATE TABLE "conteudos" (
     "titulo" VARCHAR(100) NOT NULL,
     "descricao" TEXT NOT NULL,
     "autor" TEXT NOT NULL,
-    "banner" TEXT,
+    "banner" VARCHAR(255) NOT NULL,
     "publicadoEm" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "atualizadoEm" TIMESTAMP(3) NOT NULL,
     "categoria" UUID NOT NULL,

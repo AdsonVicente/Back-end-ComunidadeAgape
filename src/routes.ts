@@ -62,7 +62,7 @@ router.post('/login', new AuthAdministradorController().handle);
 
 router.get('/administradoresDetalhes', isAuthenticated, new AdministradoresDetalhesController().handle);
 
-router.put('/administrador/:id', editarAdministradorController.handle);
+router.put('/administrador/:id',isAuthenticated, editarAdministradorController.handle);
 
 router.get("/administrador/:id", isAuthenticated, new BuscarAdministradorPorIdController().handle);
 
@@ -148,17 +148,7 @@ router.delete("/eventos/:id", isAuthenticated, deletarEvento.handle);
 //INSCRIÇÕES PARA OS EVENTOS
 router.post("/imagem", isAuthenticated, upload.single("file"), new CadastrarImagemController().handle);
 
-router.get("/imagens", async (req, res) => {
-    try {
-        const imagens = await prisma.imagem.findMany({
-            orderBy: { criadoEm: "desc" },
-            include: { autor: { select: { nome: true } } }
-        });
-        res.json(imagens);
-    } catch (error) {
-        res.status(500).json({ error: "Erro ao listar imagens." });
-    }
-});
+
 router.get("/inscricoes", new ListarInscricoesController().handle);
 
 router.post("/inscricoes", isAuthenticated, new CriarInscricaoController().handle);

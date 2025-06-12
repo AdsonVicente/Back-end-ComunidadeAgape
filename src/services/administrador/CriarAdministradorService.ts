@@ -29,20 +29,15 @@ class CriarAdministradorService {
         }
 
         const passwordHash = await hash(senha, 8);
-
+        if (!passwordHash) {
+            throw new Error("Erro ao criar hash da senha");
+        }
         const administrador = await prisma.administrador.create({
             data: {
-
                 id: crypto.randomUUID(),
                 nome: nome,
                 email: email,
                 senha: passwordHash,
-            },
-
-            select: {
-                id: true,
-                nome: true,
-                email: true,
             }
         });
 

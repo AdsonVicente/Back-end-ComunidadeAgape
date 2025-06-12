@@ -46,7 +46,6 @@ model Administrador {
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  imagens   Imagem[] // Relation to Imagem
 
   @@map("administradores")
 }
@@ -89,14 +88,4 @@ model Inscricao {
   evento    Evento   @relation(fields: [eventId], references: [id])
 
   @@map("Inscricoes")
-}
-
-model Imagem {
-  id        String        @id @default(uuid())
-  url       String
-  titulo    String
-  descricao String?
-  autorId   String
-  autor     Administrador @relation(fields: [autorId], references: [id])
-  criadoEm  DateTime      @default(now())
 }
