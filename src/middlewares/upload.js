@@ -4,14 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.upload = void 0;
-// src/middleware/upload.ts
 const multer_1 = __importDefault(require("multer"));
 const multer_storage_cloudinary_1 = require("multer-storage-cloudinary");
 const cloudinary_1 = require("../lib/cloudinary");
 const storage = new multer_storage_cloudinary_1.CloudinaryStorage({
     cloudinary: cloudinary_1.cloudinary,
     params: {
-        folder: 'imagens', 
+        folder: 'conteudos', // ou 'noticias', 'formacoes', etc.
         allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
         transformation: [{ width: 1080, height: 1080, crop: 'limit' }],
     },
