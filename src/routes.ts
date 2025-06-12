@@ -131,7 +131,6 @@ router.put(
     isAuthenticated, editarLiturgiaController.handle
 );
 
-
 //EVENTOS   
 
 router.post('/evento', isAuthenticated, upload.single('file'), new CriarEventoController().handle);
