@@ -42,11 +42,15 @@ import { EstatisticasController } from './controllers/EstatisticasController';
 import EditarLiturgiaController from './controllers/liturgia/EditarLiturgiaController';
 import BuscarLiturgiaPorIdController from './controllers/liturgia/BuscarLiturgiaPorIdController';
 import EditarAdministradorController from './controllers/administrador/EditarAdministradorController';
+import { FiltrarConteudosPorAutorController } from './controllers/conteudo/FiltrarConteudosPorAutorController';
 
 const estatisticasController = new EstatisticasController();
 const buscarLiturgiaController = new BuscarLiturgiaPorIdController();
 const editarLiturgiaController = new EditarLiturgiaController();
 const editarAdministradorController = new EditarAdministradorController();
+const buscarConteudoPorIdController = new BuscarConteudoPorIdController();
+const filtrarConteudosPorAutor = new FiltrarConteudosPorAutorController();
+
 
 const upload = uploadConfig.upload();
 
@@ -85,9 +89,10 @@ router.put("/conteudos/:id", isAuthenticated, upload.single("file"), editarConte
 
 router.delete("/conteudos/:id", isAuthenticated, deletarConteudo.handle);
 
-const buscarConteudoPorIdController = new BuscarConteudoPorIdController();
-
 router.get("/conteudos/:id", buscarConteudoPorIdController.handle);
+
+router.get("/conteudosadm", new FiltrarConteudosPorAutorController().handle);
+
 
 // Rotas para o recurso Liturgia
 
