@@ -21,7 +21,7 @@ class CadastrarConteudoService {
           id,
           titulo,
           descricao,
-          banner,
+          banner: banner ?? "",
           autor,
           category: {
             connect: {
@@ -34,10 +34,14 @@ class CadastrarConteudoService {
       return conteudo;
 
     } catch (error) {
-      console.error("Erro ao criar conteúdo no Prisma:", error.message);
-      console.error(error.stack);
+      if (error instanceof Error) {
+        console.error("Erro ao criar conteúdo no Prisma:", error.message);
+        console.error(error.stack);
+      } else {
+        console.error("Erro ao criar conteúdo no Prisma:", error);
+      }
       throw new Error("Erro ao cadastrar conteúdo.");
-      
+
     }
   }
 }

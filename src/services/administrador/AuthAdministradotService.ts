@@ -36,20 +36,20 @@ class AuthAdministradorService {
             throw new Error("Email ou senha incorretos!");
         }
 
+        if (!process.env.JWT_SECRET) {
+            throw new Error("JWT_SECRET não está definido nas variáveis de ambiente.");
+        }
         const token = sign(
             {
                 nome: administrador.nome,
                 email: administrador.email,
             },
-            process.env.JWT_SECRET,
+            process.env.JWT_SECRET as string,
             {
                 subject: administrador.id,
                 expiresIn: "30d",
             }
         );
-        if (!process.env.JWT_SECRET) {
-            throw new Error("JWT_SECRET não está definido nas variáveis de ambiente.");
-        }
 
 
         return {

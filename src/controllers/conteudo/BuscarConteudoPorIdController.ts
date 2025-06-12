@@ -11,7 +11,8 @@ class BuscarConteudoPorIdController {
             const conteudo = await buscarConteudoPorIdService.execute(id);
             return res.json(conteudo);
         } catch (error) {
-            return res.status(404).json({ error: error.message });
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            return res.status(404).json({ error: errorMessage });
         }
     }
 }

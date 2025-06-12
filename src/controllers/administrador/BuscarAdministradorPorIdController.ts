@@ -17,7 +17,8 @@ class BuscarAdministradorPorIdController {
 
             return res.json(user);
         } catch (error) {
-            return res.status(400).json({ message: error.message || "Erro ao buscar administrador." });
+            const errorMessage = error instanceof Error ? error.message : "Erro ao buscar administrador.";
+            return res.status(400).json({ message: errorMessage });
         }
     }
 }

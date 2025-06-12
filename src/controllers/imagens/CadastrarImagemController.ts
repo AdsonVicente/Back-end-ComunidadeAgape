@@ -34,7 +34,7 @@ class CadastrarImagemController {
                             else reject(error);
                         }
                     );
-                    streamifier.createReadStream(req.file.buffer).pipe(stream);
+                    streamifier.createReadStream(req.file!.buffer).pipe(stream);
                 });
             };
 

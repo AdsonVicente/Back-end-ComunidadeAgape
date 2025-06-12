@@ -33,7 +33,7 @@ class CriarEventoController {
               else reject(error);
             }
           );
-          streamifier.createReadStream(req.file.buffer).pipe(stream);
+          streamifier.createReadStream(req.file!.buffer).pipe(stream);
         });
       };
 
@@ -52,7 +52,11 @@ class CriarEventoController {
 
       return res.status(201).json(evento);
     } catch (error) {
-      console.error("Erro ao criar evento:", error.stack || error);
+      if (error instanceof Error) {
+        console.error("Erro ao criar evento:", error.stack || error.message);
+      } else {
+        console.error("Erro ao criar evento:", error);
+      }
       return res.status(500).json({ error: "Erro interno ao criar evento." });
     }
   }

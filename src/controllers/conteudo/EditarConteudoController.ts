@@ -22,7 +22,8 @@ class EditarConteudoController {
             return res.json(conteudo);
         } catch (error) {
             console.error(error);
-            return res.status(400).json({ error: "Erro ao atualizar conteúdo", details: error.message });
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            return res.status(400).json({ error: "Erro ao atualizar conteúdo", details: errorMessage });
         }
     }
 }

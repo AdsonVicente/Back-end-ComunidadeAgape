@@ -29,7 +29,7 @@ class CadastrarLiturgiaService {
                 corLiturgica,
                 primeiraLeitura,
                 salmoResponsorial,
-                segundaLeitura: segundaLeitura || null,
+                segundaLeitura: segundaLeitura || "",
                 evangelho,
                 dia
             }
