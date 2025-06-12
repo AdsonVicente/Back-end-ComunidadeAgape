@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-
+import crypto from "crypto";
 interface LiturgiaRequest {
     titulo: string;
     corLiturgica: string;

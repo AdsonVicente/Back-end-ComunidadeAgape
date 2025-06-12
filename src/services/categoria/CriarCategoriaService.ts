@@ -1,4 +1,5 @@
 import PrismaClient from "@prisma/client";
+import crypto from "crypto";
 
 interface CategoriaRequest {
     nome: string;

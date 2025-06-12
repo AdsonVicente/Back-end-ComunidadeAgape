@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import crypto from "crypto";
 
 interface EventoRequest {
   titulo: string;
