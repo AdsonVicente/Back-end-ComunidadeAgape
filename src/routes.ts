@@ -2,7 +2,7 @@ import { Router, RequestHandler } from 'express';
 import { CriarAdministradorController } from './controllers/administrador/CriarAdministradorController';
 import { AuthAdministradorController } from './controllers/administrador/AuthAdministradorController';
 import AdministradoresDetalhesController from './controllers/administrador/AdministradoresDetalhesController';
-import { isAuthenticated } from './middllewares/isAuthenticated';
+import { isAuthenticated } from './middlewares/isAuthenticated';
 import CriarCategoriaController from './controllers/categoria/CriarCategoriaController';
 import { ListarCategoriaController } from './controllers/categoria/ListarCategoriaController';
 import { CadastrarConteudoController } from './controllers/conteudo/CadastrarConteudoController';
@@ -11,7 +11,6 @@ import { ListarConteudosController } from './controllers/conteudo/ListarConteudo
 import { CadastrarLiturgiaController } from './controllers/liturgia/CadastrarLiturgiaController';
 import { ListarLiturgiasController } from './controllers/liturgia/ListarLiturgiasController';
 import { ListarLiturgiaDoDiaController } from './controllers/liturgia/ListarLiturgiaDoDiaController';
-import EditarAdministradorController from './controllers/administrador/EditarAdministradorController';
 import { CriarEventoController } from './controllers/evento/CriarEventoController';
 import { ListarEventosController } from './controllers/evento/ListarEventoController';
 import { EditarEventoController } from './controllers/evento/EditarEventoController';
@@ -43,11 +42,12 @@ import { PrismaClient } from '@prisma/client';
 import { EstatisticasController } from './controllers/EstatisticasController';
 import EditarLiturgiaController from './controllers/liturgia/EditarLiturgiaController';
 import BuscarLiturgiaPorIdController from './controllers/liturgia/BuscarLiturgiaPorIdController';
+import EditarAdministradorController from './controllers/administrador/EditarAdministradorController';
 
 const estatisticasController = new EstatisticasController();
 const buscarLiturgiaController = new BuscarLiturgiaPorIdController();
 const editarLiturgiaController = new EditarLiturgiaController();
-
+const editarAdministradorController = new EditarAdministradorController();
 
 const upload = uploadConfig.upload();
 
@@ -62,11 +62,11 @@ router.post('/login', new AuthAdministradorController().handle);
 
 router.get('/administradoresDetalhes', isAuthenticated, new AdministradoresDetalhesController().handle);
 
-router.put('/administrador/:id', isAuthenticated, new EditarAdministradorController().handle);
+router.put('/administrador/:id', editarAdministradorController.handle);
 
 router.get("/administrador/:id", isAuthenticated, new BuscarAdministradorPorIdController().handle);
 
-router.get("/estastisticas", isAuthenticated, estatisticasController.handle);
+router.get("/estatisticas", isAuthenticated, estatisticasController.handle);
 
 //ROTAS CATEGORIA
 

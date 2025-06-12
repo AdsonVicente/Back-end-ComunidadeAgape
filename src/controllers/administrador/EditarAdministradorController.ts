@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { EditarAdministradorService } from "../../services/administrador/EditarAdministradorService";
 
-class EditarAdministradorController {
+export default class EditarAdministradorController  {
   async handle(req: Request, res: Response) {
     const { nome, email, senha } = req.body;
     const { id } = req.params;
@@ -23,5 +23,3 @@ class EditarAdministradorController {
     }
   }
 }
-
-export default EditarAdministradorController;

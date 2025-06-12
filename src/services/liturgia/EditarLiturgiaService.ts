@@ -14,6 +14,7 @@ interface EditarLiturgiaDTO {
   usuarioId: string; // quem está tentando editar
 }
 
+
 class LiturgiaService {
   async editarLiturgia(id: string, data: EditarLiturgiaDTO) {
     const liturgia = await prisma.liturgia.findUnique({ where: { id } });

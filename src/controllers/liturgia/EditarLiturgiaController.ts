@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import EditarLiturgiaService from '../../services/liturgia/EditarLiturgiaService';
 import { BadRequestError } from '../../utils/api-errors';
 
-// Extende o tipo Request para incluir 'administrador'
+// Extende o tipo Request para incluir 'user_id' (de acordo com middleware)
 declare module 'express-serve-static-core' {
     interface Request {
-        administrador?: { id: string };
+        user_id?: string;
     }
 }
 
@@ -13,9 +13,7 @@ class EditarLiturgiaController {
     async handle(req: Request, res: Response) {
         try {
             const { id } = req.params;
-
-            // Pega o ID do usuário autenticado (supondo middleware que insere isso)
-            const usuarioId = req.administrador?.id;
+            const usuarioId = req.user_id;
 
             if (!usuarioId) {
                 throw new BadRequestError('Usuário não autenticado.');
@@ -31,6 +29,19 @@ class EditarLiturgiaController {
                 dia
             } = req.body;
 
+            const diaDate = dia ? new Date(dia) : undefined;
+
+            console.log('Dados recebidos para atualizar liturgia:', {
+                titulo,
+                corLiturgica,
+                primeiraLeitura,
+                salmoResponsorial,
+                segundaLeitura,
+                evangelho,
+                dia: diaDate,
+                usuarioId,
+            });
+
             const liturgiaAtualizada = await EditarLiturgiaService.editarLiturgia(id, {
                 titulo,
                 corLiturgica,
@@ -38,16 +49,15 @@ class EditarLiturgiaController {
                 salmoResponsorial,
                 segundaLeitura,
                 evangelho,
-                dia,
+                dia: diaDate,
                 usuarioId
             });
 
             return res.status(200).json(liturgiaAtualizada);
-        } catch (error) {
-            // repassa o erro para o middleware de erros central
+        } catch (error: any) {
             return res.status(error.statusCode || 500).json({ mensagem: error.message });
         }
     }
 }
 
-export default  EditarLiturgiaController;
+export default EditarLiturgiaController;

@@ -5,7 +5,7 @@ import path from 'path';
 
 import router from './routes';
 import dotenv from 'dotenv';
-import { errorHandler } from './middllewares/errorHandler';
+import { errorHandler } from './middlewares/errorHandler';
 // Carrega variáveis de ambiente
 dotenv.config();
 
@@ -16,7 +16,7 @@ app.use(helmet());
 
 // Permitir apenas domínios específicos no CORS (em produção!)
 app.use(cors({
- 
+
 }));
 
 
