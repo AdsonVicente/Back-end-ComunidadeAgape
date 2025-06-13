@@ -43,6 +43,7 @@ import EditarLiturgiaController from './controllers/liturgia/EditarLiturgiaContr
 import BuscarLiturgiaPorIdController from './controllers/liturgia/BuscarLiturgiaPorIdController';
 import EditarAdministradorController from './controllers/administrador/EditarAdministradorController';
 import { FiltrarConteudosPorAutorController } from './controllers/conteudo/FiltrarConteudosPorAutorController';
+import { handleSendEmail } from './controllers/contato/email.controller';
 
 const estatisticasController = new EstatisticasController();
 const buscarLiturgiaController = new BuscarLiturgiaPorIdController();
@@ -136,6 +137,8 @@ router.put(
     isAuthenticated, editarLiturgiaController.handle
 );
 
+router.post("/enviaremail", handleSendEmail);
+
 //EVENTOS   
 
 router.post('/evento', isAuthenticated, upload.single('file'), new CriarEventoController().handle);
@@ -144,7 +147,7 @@ router.get("/evento/:id", new ListarEventoPorIdController().handle);
 
 router.get("/eventos", listarEventos.handle);
 
-router.put("/eventos/:id", isAuthenticated, upload.single("file"), editarEvento.handle);
+router.put("/eventos/:id", isAuthenticated, upload.single('file'), editarEvento.handle);
 
 router.delete("/eventos/:id", isAuthenticated, deletarEvento.handle);
 

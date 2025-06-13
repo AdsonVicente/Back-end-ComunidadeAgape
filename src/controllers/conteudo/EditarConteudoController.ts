@@ -1,12 +1,34 @@
 import { Request, Response } from "express";
 import { EditarConteudoService } from "../../services/conteudo/EditarConteudoService";
+import { cloudinary } from "../../lib/cloudinary";
+import { Readable } from "stream"; // IMPORTANTE!
 
 class EditarConteudoController {
     async handle(req: Request, res: Response) {
         try {
             const { id } = req.params;
             const { titulo, descricao, categoria, autor } = req.body;
-            const banner = req.file ? req.file.filename : undefined;
+            let bannerUrl: string | undefined = undefined;
+
+            // Função auxiliar para upload no Cloudinary
+            function streamUpload(fileBuffer: Buffer, folder = "conteudos") {
+                return new Promise<string>((resolve, reject) => {
+                    const stream = cloudinary.uploader.upload_stream(
+                        { folder },
+                        (error, result) => {
+                            if (result) resolve(result.secure_url);
+                            else reject(error);
+                        }
+                    );
+                    Readable.from(fileBuffer).pipe(stream);
+                });
+            }
+
+            // Se foi enviado um novo arquivo, faz upload
+            if (req.file) {
+                const fileBuffer = req.file.buffer;
+                bannerUrl = await streamUpload(fileBuffer);
+            }
 
             const editarConteudoService = new EditarConteudoService();
 
@@ -16,7 +38,7 @@ class EditarConteudoController {
                 descricao,
                 categoria,
                 autor,
-                banner
+                banner: bannerUrl // 👈 Corrigido aqui
             });
 
             return res.json(conteudo);
