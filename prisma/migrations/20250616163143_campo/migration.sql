@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Galeria" ALTER COLUMN "titulo" DROP NOT NULL,
+ALTER COLUMN "categoria" SET DATA TYPE TEXT;
