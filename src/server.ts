@@ -16,7 +16,7 @@ app.use(helmet());
 
 // Permitir apenas domínios específicos no CORS (em produção!)
 app.use(cors({
-    'origin': ['https://www.comagape.org', 'http://localhost:5173'],
+    'origin': ['https://www.comagape.org', 'http://localhost:5173','http://localhost:3000'],
     'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }));
 

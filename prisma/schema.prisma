@@ -57,7 +57,7 @@ model Liturgia {
   corLiturgica      String
   primeiraLeitura   String
   salmoResponsorial String
-  segundaLeitura    String
+  segundaLeitura    String?
   evangelho         String
   dia               DateTime
 
@@ -81,8 +81,8 @@ model Inscricao {
   telefone  String
   idade     Int
   email     String
-  grupo     String
-  setor     String
+  grupo     String?
+  setor     String?
   createdAt DateTime @default(now())
   eventId   String   @db.Uuid
   evento    Evento   @relation(fields: [eventId], references: [id])
