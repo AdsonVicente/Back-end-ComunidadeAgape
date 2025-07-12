@@ -86,6 +86,8 @@ model Inscricao {
   createdAt DateTime @default(now())
   eventId   String   @db.Uuid
   evento    Evento   @relation(fields: [eventId], references: [id])
+  @@unique([email, eventId])
+
 
   @@map("Inscricoes")
 }
