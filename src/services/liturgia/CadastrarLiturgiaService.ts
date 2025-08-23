@@ -29,7 +29,7 @@ class CadastrarLiturgiaService {
                 corLiturgica,
                 primeiraLeitura,
                 salmoResponsorial,
-                segundaLeitura: typeof segundaLeitura === "string" ? segundaLeitura : "",
+                segundaLeitura: segundaLeitura?.trim() ? segundaLeitura : null,
                 evangelho,
                 dia
             }
