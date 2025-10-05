@@ -1,6 +1,5 @@
+// src/services/contato/email.service.ts
 import { PrismaClient } from "@prisma/client";
-
-// services/contact/CadastrarContatoService.ts
 const prisma = new PrismaClient();
 
 interface ContatoRequest {
@@ -12,7 +11,10 @@ interface ContatoRequest {
 
 export class CadastrarContatoService {
   async execute({ nome, email, assunto, mensagem }: ContatoRequest) {
-    // Salva no banco
+    if (!nome || !email || !assunto || !mensagem) {
+      throw new Error("Todos os campos são obrigatórios.");
+    }
+
     const contato = await prisma.contato.create({
       data: {
         nome,
