@@ -46,6 +46,7 @@ import { FiltrarConteudosPorAutorController } from './controllers/conteudo/Filtr
 
 import { cloudinary } from './lib/cloudinary';
 import { CadastrarContatoController } from './controllers/contato/email.controller';
+import { ListarMensagensController } from './controllers/contato/ListarMensagensConroller';
 
 const estatisticasController = new EstatisticasController();
 const buscarLiturgiaController = new BuscarLiturgiaPorIdController();
@@ -96,7 +97,7 @@ router.get("/conteudos/:id", buscarConteudoPorIdController.handle);
 
 router.get("/conteudosadm", new FiltrarConteudosPorAutorController().handle);
 
-
+router.get("/Mensagens", new ListarMensagensController().handle);
 // Rotas para o recurso Liturgia
 
 // Criar nova liturgia (requer autenticação)
