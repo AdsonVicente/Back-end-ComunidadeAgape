@@ -43,10 +43,9 @@ import EditarLiturgiaController from './controllers/liturgia/EditarLiturgiaContr
 import BuscarLiturgiaPorIdController from './controllers/liturgia/BuscarLiturgiaPorIdController';
 import EditarAdministradorController from './controllers/administrador/EditarAdministradorController';
 import { FiltrarConteudosPorAutorController } from './controllers/conteudo/FiltrarConteudosPorAutorController';
-import { handleSendEmail } from './controllers/contato/email.controller';
+
 import { cloudinary } from './lib/cloudinary';
-import { CadastrarImagemGaleriaController } from './controllers/galeria/CadastrarImagemGaleriaController';
-import { ListarGaleriaController } from './controllers/galeria/ListarGaleriaController';
+import { CadastrarContatoController } from './controllers/contato/email.controller';
 
 const estatisticasController = new EstatisticasController();
 const buscarLiturgiaController = new BuscarLiturgiaPorIdController();
@@ -118,6 +117,11 @@ router.get(
     "/liturgia-dia",
     new ListarLiturgiaDoDiaController().handle
 );
+router.post(
+    "/contato",
+    new CadastrarContatoController().handle
+);
+
 
 // Excluir liturgia por ID (requer autenticação)
 router.delete(
@@ -139,8 +143,6 @@ router.put(
     "/liturgia/:id",
     isAuthenticated, editarLiturgiaController.handle
 );
-
-router.post("/enviaremail", handleSendEmail);
 
 //EVENTOS   
 
@@ -165,15 +167,5 @@ router.put("/inscricoes/:id", isAuthenticated, new EditarInscricaoController().h
 router.delete("/inscricoes/:id", isAuthenticated, new ExcluirInscricaoController().handle);
 
 router.get("/inscricoes/evento/:eventoId", isAuthenticated, new ListarInscricoesPorEventoController().handle);
-
-router.post(
-    '/galeria',
-    isAuthenticated,
-    upload.single('file'),
-    new CadastrarImagemGaleriaController().handle
-);
-router.get('/galeria', new ListarGaleriaController().handle);
-
-
 
 export default router;

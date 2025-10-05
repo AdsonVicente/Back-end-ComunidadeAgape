@@ -86,16 +86,15 @@ model Inscricao {
   createdAt DateTime @default(now())
   eventId   String   @db.Uuid
   evento    Evento   @relation(fields: [eventId], references: [id])
-  @@unique([email, eventId])
-
 
   @@map("Inscricoes")
 }
 
-model Galeria {
-  id        String   @id @default(uuid())
-  titulo    String?
-  imagemUrl String
-  criadoEm  DateTime @default(now())
-  categoria String
+model Contato {
+  id       String   @id @default(uuid())
+  email    String
+  nome     String
+  assunto  String
+  mensagem String
+  criadoEm DateTime @default(now())
 }

@@ -1,18 +1,27 @@
-import nodemailer from "nodemailer";
-import { mailConfig } from "../../config/email";
+import { PrismaClient } from "@prisma/client";
 
-export const sendContactEmail = async (name: string, email: string, message: string) => {
-  const transporter = nodemailer.createTransport(mailConfig);
+// services/contact/CadastrarContatoService.ts
+const prisma = new PrismaClient();
 
-  await transporter.sendMail({
-    from: `"${name}" <${email}>`,
-    to: process.env.CONTACT_EMAIL_DEST, // define no .env o destinatário fixo
-    subject: "Nova mensagem de contato do site",
-    html: `
-      <h2>Nova mensagem recebida</h2>
-      <p><strong>Nome:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Mensagem:</strong><br/>${message}</p>
-    `,
-  });
-};
+interface ContatoRequest {
+  nome: string;
+  email: string;
+  assunto: string;
+  mensagem: string;
+}
+
+export class CadastrarContatoService {
+  async execute({ nome, email, assunto, mensagem }: ContatoRequest) {
+    // Salva no banco
+    const contato = await prisma.contato.create({
+      data: {
+        nome,
+        email,
+        assunto,
+        mensagem,
+      },
+    });
+
+    return contato;
+  }
+}

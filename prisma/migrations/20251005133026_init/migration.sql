@@ -2,7 +2,7 @@
 CREATE TABLE "eventos" (
     "id" UUID NOT NULL,
     "titulo" VARCHAR(100) NOT NULL,
-    "descricao" VARCHAR(500) NOT NULL,
+    "descricao" TEXT NOT NULL,
     "local" VARCHAR(50) NOT NULL,
     "data" TIMESTAMP(3) NOT NULL,
     "horario" VARCHAR(8) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE "liturgias" (
     "corLiturgica" TEXT NOT NULL,
     "primeiraLeitura" TEXT NOT NULL,
     "salmoResponsorial" TEXT NOT NULL,
-    "segundaLeitura" TEXT NOT NULL,
+    "segundaLeitura" TEXT,
     "evangelho" TEXT NOT NULL,
     "dia" TIMESTAMP(3) NOT NULL,
 
@@ -74,12 +74,34 @@ CREATE TABLE "Inscricoes" (
     "telefone" TEXT NOT NULL,
     "idade" INTEGER NOT NULL,
     "email" TEXT NOT NULL,
-    "grupo" TEXT NOT NULL,
-    "setor" TEXT NOT NULL,
+    "grupo" TEXT,
+    "setor" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "eventId" UUID NOT NULL,
 
     CONSTRAINT "Inscricoes_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Galeria" (
+    "id" TEXT NOT NULL,
+    "titulo" TEXT,
+    "imagemUrl" TEXT NOT NULL,
+    "criadoEm" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "categoria" TEXT NOT NULL,
+
+    CONSTRAINT "Galeria_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Contato" (
+    "id" TEXT NOT NULL,
+    "nome" TEXT NOT NULL,
+    "assunto" TEXT NOT NULL,
+    "mensagem" TEXT NOT NULL,
+    "criadoEm" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Contato_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

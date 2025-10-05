@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
-import { sendContactEmail } from "../../services/contato/email.service";
+import { CadastrarContatoService } from "../../services/contato/email.service";
+class CadastrarContatoController {
+  async handle(req: Request, res: Response) {
+    const { nome, email, assunto, mensagem } = req.body;
 
-export const handleSendEmail = async (req: Request, res: Response) => {
-  const { name, email, message } = req.body;
+    const cadastrarContatoService = new CadastrarContatoService();
 
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: "Todos os campos são obrigatórios." });
+    const contato = await cadastrarContatoService.execute({
+      nome,
+      email,
+      assunto,
+      mensagem
+    });
+
+    return res.json({ contato })
   }
-
-  try {
-    await sendContactEmail(name, email, message);
-    return res.status(200).json({ message: "Mensagem enviada com sucesso." });
-  } catch (error) {
-    console.error("Erro ao enviar o e-mail:", error);
-    return res.status(500).json({ error: "Erro ao enviar o e-mail." });
-  }
-};
+}
+export { CadastrarContatoController };
