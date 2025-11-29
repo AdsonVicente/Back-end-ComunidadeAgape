@@ -1,27 +1,32 @@
 import { PrismaClient } from "@prisma/client";
 import { toZonedTime } from "date-fns-tz";
-import { addDays, startOfDay } from "date-fns";
+import { addDays, startOfDay, parseISO } from "date-fns";
 
 const prisma = new PrismaClient();
 
 class ListarLiturgiaDoDiaService {
-    async execute(p0: string | undefined) {
-        const timeZone = 'America/Sao_Paulo'; // fuso horário de São Paulo
-        
-        // Pega a data atual convertida para o fuso horário de São Paulo
-        const hojeZoned = toZonedTime(new Date(), timeZone);
+    async execute(dateParam?: string) {
+        const timeZone = 'America/Sao_Paulo';
 
-        // Início do dia no fuso horário local
-        const hoje = startOfDay(hojeZoned);
+        let baseDate: Date;
 
-        // Início do próximo dia
-        const amanha = addDays(hoje, 1);
+        if (dateParam) {
+            // Converte a data yyyy-mm-dd para o fuso de SP
+            const parsed = parseISO(dateParam);
+            baseDate = toZonedTime(parsed, timeZone);
+        } else {
+            // Usa a data de hoje se nenhuma data for enviada
+            baseDate = toZonedTime(new Date(), timeZone);
+        }
+
+        const inicioDoDia = startOfDay(baseDate);
+        const inicioDoDiaSeguinte = addDays(inicioDoDia, 1);
 
         const liturgia = await prisma.liturgia.findFirst({
             where: {
                 dia: {
-                    gte: hoje,
-                    lt: amanha,
+                    gte: inicioDoDia,
+                    lt: inicioDoDiaSeguinte,
                 },
             },
         });
