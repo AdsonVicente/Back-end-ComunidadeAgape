@@ -47,7 +47,7 @@ import { FiltrarConteudosPorAutorController } from './controllers/conteudo/Filtr
 import { cloudinary } from './lib/cloudinary';
 import { CadastrarContatoController } from './controllers/contato/email.controller';
 import { ListarMensagensController } from './controllers/contato/ListarMensagensConroller';
-
+import { DeletarContatoController } from './controllers/contato/DeletarContatoController';
 const estatisticasController = new EstatisticasController();
 const buscarLiturgiaController = new BuscarLiturgiaPorIdController();
 const editarLiturgiaController = new EditarLiturgiaController();
@@ -92,6 +92,9 @@ router.get("/conteudos", new ListarConteudosController().handle);
 router.put("/conteudos/:id", isAuthenticated, upload.single("file"), editarConteudo.handle);
 
 router.delete("/conteudos/:id", isAuthenticated, deletarConteudo.handle);
+
+const deletarContatoController = new DeletarContatoController();
+router.delete("/mensagens/:id", isAuthenticated, deletarContatoController.handle);
 
 router.get("/conteudos/:id", buscarConteudoPorIdController.handle);
 

@@ -5,7 +5,7 @@ import { addDays, startOfDay } from "date-fns";
 const prisma = new PrismaClient();
 
 class ListarLiturgiaDoDiaService {
-    async execute() {
+    async execute(p0: string | undefined) {
         const timeZone = 'America/Sao_Paulo'; // fuso horário de São Paulo
         
         // Pega a data atual convertida para o fuso horário de São Paulo
