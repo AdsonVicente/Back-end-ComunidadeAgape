@@ -1,32 +1,35 @@
 import { PrismaClient } from "@prisma/client";
 import { toZonedTime } from "date-fns-tz";
-import { addDays, startOfDay, parseISO } from "date-fns";
+import { addDays, startOfDay } from "date-fns";
 
 const prisma = new PrismaClient();
 
 class ListarLiturgiaDoDiaService {
-    async execute(dateParam?: string) {
-        const timeZone = 'America/Sao_Paulo';
+    async execute(dateString?: string) {
+        const timeZone = "America/Sao_Paulo";
 
         let baseDate: Date;
 
-        if (dateParam) {
-            // Converte a data yyyy-mm-dd para o fuso de SP
-            const parsed = parseISO(dateParam);
-            baseDate = toZonedTime(parsed, timeZone);
+        if (dateString) {
+            // Criar uma data REAL local
+            const [year, month, day] = dateString.split("-").map(Number);
+            const localDate = new Date(year, month - 1, day, 0, 0, 0);
+
+            // Ajustar para timezone de São Paulo
+            baseDate = toZonedTime(localDate, timeZone);
         } else {
-            // Usa a data de hoje se nenhuma data for enviada
+            // Data atual
             baseDate = toZonedTime(new Date(), timeZone);
         }
 
-        const inicioDoDia = startOfDay(baseDate);
-        const inicioDoDiaSeguinte = addDays(inicioDoDia, 1);
+        const inicioDia = startOfDay(baseDate);
+        const fimDia = addDays(inicioDia, 1);
 
         const liturgia = await prisma.liturgia.findFirst({
             where: {
                 dia: {
-                    gte: inicioDoDia,
-                    lt: inicioDoDiaSeguinte,
+                    gte: inicioDia,
+                    lt: fimDia,
                 },
             },
         });
