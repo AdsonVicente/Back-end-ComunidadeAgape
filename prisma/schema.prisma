@@ -59,7 +59,7 @@ model Liturgia {
   salmoResponsorial String
   segundaLeitura    String?
   evangelho         String
-  dia               DateTime
+  dia               DateTime @db.Date
 
   @@map("liturgias")
 }
