@@ -27,11 +27,6 @@ class LiturgiaService {
       throw new UnauthorizedError('Usuário não encontrado.');
     }
 
-    // Ajuste: permitir apenas admins (ou donos, se liturgia tiver campo administradorId)
-    if (!usuario.isAdmin) {
-      throw new UnauthorizedError('Você não tem permissão para editar esta liturgia.');
-    }
-
     // Verifica se ao menos um campo foi enviado
     const camposAtualizar: any = {
       titulo: data.titulo,
