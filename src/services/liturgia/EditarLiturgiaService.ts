@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { UnauthorizedError, NotFoundError, BadRequestError } from '../../utils/api-errors';
+import { NotFoundError, BadRequestError } from '../../utils/api-errors';
 
 const prisma = new PrismaClient();
 
@@ -11,23 +11,16 @@ interface EditarLiturgiaDTO {
   segundaLeitura?: string;
   evangelho?: string;
   dia?: Date;
-  usuarioId: string; // quem está tentando editar
 }
-
 
 class LiturgiaService {
   async editarLiturgia(id: string, data: EditarLiturgiaDTO) {
     const liturgia = await prisma.liturgia.findUnique({ where: { id } });
+
     if (!liturgia) {
       throw new NotFoundError('Liturgia não encontrada.');
     }
 
-    const usuario = await prisma.administrador.findUnique({ where: { id: data.usuarioId } });
-    if (!usuario) {
-      throw new UnauthorizedError('Usuário não encontrado.');
-    }
-
-    // Verifica se ao menos um campo foi enviado
     const camposAtualizar: any = {
       titulo: data.titulo,
       corLiturgica: data.corLiturgica,
@@ -39,13 +32,11 @@ class LiturgiaService {
       atualizadoEm: new Date(),
     };
 
-    // Remove campos indefinidos
     const dadosLimpos = Object.fromEntries(
-      Object.entries(camposAtualizar).filter(([_, valor]) => valor !== undefined)
+      Object.entries(camposAtualizar).filter(([_, v]) => v !== undefined)
     );
 
     if (Object.keys(dadosLimpos).length === 1) {
-      // só tem `atualizadoEm`
       throw new BadRequestError('Nenhum campo fornecido para atualização.');
     }
 
