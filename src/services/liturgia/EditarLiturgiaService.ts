@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { NotFoundError, BadRequestError } from '../../utils/api-errors';
+import { NotFoundError } from '../../utils/api-errors';
 
 const prisma = new PrismaClient();
 
@@ -32,14 +32,12 @@ class LiturgiaService {
       atualizadoEm: new Date(),
     };
 
+    // Remove somente valores undefined, mas mantém atualizadoEm sempre
     const dadosLimpos = Object.fromEntries(
       Object.entries(camposAtualizar).filter(([_, v]) => v !== undefined)
     );
 
-    if (Object.keys(dadosLimpos).length === 1) {
-      throw new BadRequestError('Nenhum campo fornecido para atualização.');
-    }
-
+    // Se SOMENTE atualizadoEm estiver presente, não dá erro — apenas atualiza o timestamp
     const liturgiaAtualizada = await prisma.liturgia.update({
       where: { id },
       data: dadosLimpos,
