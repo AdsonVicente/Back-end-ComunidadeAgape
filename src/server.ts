@@ -28,6 +28,9 @@ const allowedOrigins = [
   "https://www.comagape.org",
   "http://localhost:5173",
   "http://localhost:3000",
+  "capacitor://localhost", // Origem padrão para Apps Android no Capacitor
+  "http://localhost",
+
 ];
 
 app.use(
