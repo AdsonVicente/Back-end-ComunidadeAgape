@@ -29,6 +29,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "capacitor://localhost", // Origem padrão para Apps Android no Capacitor
+  "https://localhost",
   "http://localhost",
 
 ];
@@ -39,7 +40,11 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-      return callback(new Error("Origem não permitida pelo CORS."));
+      if (allowedOrigins.indexOf(origin) !== -1 || origin.startsWith('capacitor://')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Não permitido pelo CORS'));
+      }
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
